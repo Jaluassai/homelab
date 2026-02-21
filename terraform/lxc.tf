@@ -16,22 +16,7 @@ resource "proxmox_virtual_environment_container" "ubuntu_container" {
   features {
     nesting = true
   }
-provisioner "remote-exec" {
-  inline = [
-    "apk update",
-    "apk add --no-cache openssh python3 sudo bash",
-    "rc-update add sshd",
-    "ssh-keygen -A",
-    "rc-service sshd start"
-  ]
 
-    connection {
-      type        = "ssh"
-      host        = "192.168.100.36"
-      user        = "root"
-      private_key = tls_private_key.ubuntu_container_key.private_key_pem
-    }
-}
   initialization {
     hostname = "terraform-provider-proxmox-ubuntu-container"
 
@@ -75,7 +60,9 @@ resource "proxmox_virtual_environment_download_file" "alpine_lxc_img" {
   content_type = "vztmpl"
   datastore_id = "local"
   node_name    = "Hades01"
-  url          = "http://download.proxmox.com/images/system/alpine-3.23-default_20260116_amd64.tar.xz"
+  url          = "http://download.proxmox.com/images/system/ubuntu-25.04-standard_25.04-1.1_amd64.tar.zst"
+  #url         = "http://download.proxmox.com/images/system/alpine-3.23-default_20260116_amd64.tar.xz"
+  #url         = "https://images.linuxcontainers.org/images/alpine/3.20/amd64/cloud/20260220_13:00/rootfs.tar.xz"
 }
 
 resource "random_password" "ubuntu_container_password" {
