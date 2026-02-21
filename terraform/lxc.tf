@@ -16,19 +16,35 @@ resource "proxmox_virtual_environment_container" "ubuntu_container" {
   features {
     nesting = true
   }
+provisioner "remote-exec" {
+  inline = [
+    "apk update",
+    "apk add --no-cache openssh python3 sudo bash",
+    "rc-update add sshd",
+    "ssh-keygen -A",
+    "rc-service sshd start"
+  ]
 
+    connection {
+      type        = "ssh"
+      host        = "192.168.100.36"
+      user        = "root"
+      private_key = tls_private_key.ubuntu_container_key.private_key_pem
+    }
+}
   initialization {
     hostname = "terraform-provider-proxmox-ubuntu-container"
 
     ip_config {
       ipv4 {
-        address = "dhcp"
+        address = "192.168.100.36/24"
+        gateway = "192.168.100.1"
       }
     }
 
     user_account {
       password = random_password.ubuntu_container_password.result
-      keys     = [tls_private_key.ubuntu_container_key.public_key_openssh]
+      keys = concat([tls_private_key.ubuntu_container_key.public_key_openssh], values(var.ssh_public_keys))
     }
   }
 
