@@ -6,8 +6,8 @@ all:
           ansible_host: 192.168.100.238
           ansible_user: root
 
-    dns:
-      hosts:
-        adguard:
-          ansible_host: 192.168.100.39
-          ansible_user: root
+    # dns:
+    #   hosts:
+    #     adguard:
+    #       ansible_host: 192.168.100.39
+    #       ansible_user: root
