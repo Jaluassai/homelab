@@ -36,7 +36,7 @@ resource "proxmox_virtual_environment_container" "this" {
         gateway = var.ipv4_gateway
       }
     }
-
+## TODO: User account
     user_account {
       password = var.password
       keys     = var.ssh_keys

@@ -8,7 +8,7 @@ module "traefik" {
   cores  = 1
   memory = 512
 
-  ipv4_address = "192.168.100.38/24"
+  ipv4_address = "192.168.100.238/24"
   ipv4_gateway = "192.168.100.1"
   
   datastore_id = "local-lvm"
