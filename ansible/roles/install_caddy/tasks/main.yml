@@ -51,14 +51,23 @@
     name: caddy
     selection: hold
 
-- name: Download Caddy binary
+- name: Stop caddy before replacing binary
+  service:
+    name: caddy
+    state: stopped
+
+- name: Remove existing /usr/bin/caddy
+  file:
+    path: /usr/bin/caddy
+    state: absent
+
+- name: Download Caddy binary with OVH DNS plugin
   get_url:
-   # url: "https://caddyserver.com/api/download?os=linux&arch=amd64&modules=github.com/caddy-dns/ovh"
-   # The above URL is the recommended way to get Caddy with OVH DNS plugin, but it seems to be unreliable. will investigate later.
-    url: "https://caddyserver.com/api/download?os=linux&arch=amd64&p=github.com%2Fcaddy-dns%2Fovh%2"
+    url: "https://caddyserver.com/api/download?os=linux&arch=amd64&p=github.com/caddy-dns/ovh"
     dest: /usr/bin/caddy
     mode: '0755'
     force: yes
+
 ## TODO: Handler
 - name: Restart caddy
   service:
