@@ -5,10 +5,10 @@
     group: caddy
     mode: '0600'
     content: |
-      OVH_ENDPOINT={{ ovh_endpoint }}
-      OVH_APPLICATION_KEY={{ ovh_application_key }}
-      OVH_APPLICATION_SECRET={{ ovh_application_secret }}
-      OVH_CONSUMER_KEY={{ ovh_consumer_key }}
+      OVH_ENDPOINT={{ OVH_ENDPOINT }}
+      OVH_APPLICATION_KEY={{ OVH_APPLICATION_KEY }}
+      OVH_APPLICATION_SECRET={{ OVH_APPLICATION_SECRET }}
+      OVH_CONSUMER_KEY={{ OVH_CONSUMER_KEY }}
 
 - name: Create systemd override directory for caddy
   file:
