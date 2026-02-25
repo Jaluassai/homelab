@@ -1,0 +1,24 @@
+
+jellyseer.caddy.nullbyte.cloud {
+    reverse_proxy 192.168.100.52:5055
+    tls {
+        dns ovh
+    }
+}
+
+adguard.caddy.nullbyte.cloud {
+    reverse_proxy 192.168.100.254:443
+}
+
+bazarr.caddy.nullbyte.cloud {
+   reverse_proxy 192.168.100.52:6767
+}
+
+home-assistant.caddy.nullbyte.cloud {
+    reverse_proxy 192.168.100.52:8123
+}
+
+jellyfin.caddy.nullbyte.cloud {
+    reverse_proxy 192.168.100.52:8096
+}
+
