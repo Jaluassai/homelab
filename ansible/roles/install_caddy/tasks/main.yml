@@ -1,27 +1,43 @@
-- name: Install required packages for Caddy
+---
+- name: Ensure prerequisites for Caddy repo are present
   apt:
     name:
-      - debian-keyring
-      - debian-archive-keyring
       - apt-transport-https
       - curl
+      - gnupg
+      - debian-archive-keyring
+      - debian-keyring
     state: present
     update_cache: yes
+    lock_timeout: 600
 
-- name: Add Caddy GPG key
-  apt_key:
-    url: https://dl.cloudsmith.io/public/caddy/stable/gpg.key
-    dest: /usr/share/keyrings/caddy-stable-archive-keyring.gpg
-    mode: 0644
-    state: present
 
-- name: Add Caddy repository
-  apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/caddy-stable-archive-keyring.gpg] https://dl.cloudsmith.io/public/caddy/stable/deb/debian any-version main"
-    state: present
-    filename: caddy-stable
+- name: Download and dearmor Caddy GPG key (Cloudsmith recommended method)
+  shell: |
+    curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' \
+      | gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+  args:
+    creates: /usr/share/keyrings/caddy-stable-archive-keyring.gpg
 
-- name: Update apt cache
+
+- name: Add Caddy repository (Cloudsmith recommended method)
+  shell: |
+    curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' \
+      | tee /etc/apt/sources.list.d/caddy-stable.list
+  args:
+    creates: /etc/apt/sources.list.d/caddy-stable.list
+
+
+- name: Fix permissions for key and repo file
+  file:
+    path: "{{ item }}"
+    mode: '0644'
+  loop:
+    - /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+    - /etc/apt/sources.list.d/caddy-stable.list
+
+
+- name: Update apt cache after adding Caddy repo
   apt:
     update_cache: yes
 
@@ -37,7 +53,9 @@
 
 - name: Download Caddy binary
   get_url:
-    url: "https://caddyserver.com/api/download?os=linux&arch=amd64&modules=github.com/caddy-dns/ovh"
+   # url: "https://caddyserver.com/api/download?os=linux&arch=amd64&modules=github.com/caddy-dns/ovh"
+   # The above URL is the recommended way to get Caddy with OVH DNS plugin, but it seems to be unreliable. will investigate later.
+    url: "https://caddyserver.com/api/download?os=linux&arch=amd64&p=github.com%2Fcaddy-dns%2Fovh%2"
     dest: /usr/bin/caddy
     mode: '0755'
     force: yes
