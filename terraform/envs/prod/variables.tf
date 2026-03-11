@@ -3,12 +3,12 @@ variable "proxmox_api_token_id" {}
 
 variable "PROXMOX_VE_USERNAME" {
   sensitive = true
-  type        = string
+  type      = string
 }
 
 variable "PROXMOX_VE_PASSWORD" {
   sensitive = true
-  type        = string
+  type      = string
 }
 
 # variable "proxmox_api_token_secret" {
