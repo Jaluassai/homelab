@@ -69,8 +69,9 @@ jobs:
         env:
           TF_VAR_PROXMOX_VE_USERNAME: ${{ secrets.PROXMOX_VE_USERNAME }}
           TF_VAR_PROXMOX_VE_PASSWORD: ${{ secrets.PROXMOX_VE_PASSWORD }}
-          TF_VAR_proxmox_api_token_id: ${{ secrets.proxmox_api_token_id }}
-          TF_VAR_proxmox_api_token_secret: ${{ secrets.proxmox_api_token_secret }}
+          TF_VAR_proxmox_api_token_id: ${{ secrets.PROXMOX_API_TOKEN_ID}}
+          TF_VAR_proxmox_api_token_secret: ${{ secrets.PROXMOX_API_TOKEN_SECRET }}
+          TF_VAR_proxmox_api_url: ${{ secrets.PROXMOX_API_URL }}
         run: terraform plan -out=tfplan
       
       - name: Upload Plan
