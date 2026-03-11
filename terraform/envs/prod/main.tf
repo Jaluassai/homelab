@@ -10,7 +10,7 @@ module "traefik" {
 
   ipv4_address = "192.168.100.199/24"
   ipv4_gateway = "192.168.100.1"
-  
+
   datastore_id = "local-lvm"
   disk_size    = 4
 
@@ -34,7 +34,7 @@ module "adgurd" {
 
   ipv4_address = "192.168.100.39/24"
   ipv4_gateway = "192.168.100.1"
-  
+
   datastore_id = "local-lvm"
   disk_size    = 4
 

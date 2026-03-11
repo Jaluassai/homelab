@@ -9,10 +9,10 @@ variable "PROXMOX_VE_PASSWORD" {
   sensitive = true
 }
 
-variable proxmox_api_token_secret {
-    description = "api token secret"
-    type = string
-    sensitive = true
+variable "proxmox_api_token_secret" {
+  description = "api token secret"
+  type        = string
+  sensitive   = true
 }
 
 variable "ssh_public_keys" {
