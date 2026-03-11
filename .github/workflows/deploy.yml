@@ -8,35 +8,41 @@ on:
       - 'terraform/**'
       - 'ansible/**'
       - '.github/workflows/deploy.yml'
-  workflow_dispatch:  # Ręczne uruchomienie
+  workflow_dispatch:
+
 
 jobs:
+
   validate:
     name: Validate
     runs-on: self-hosted
-    
+
     steps:
       - uses: actions/checkout@v4
       
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: latest
+          terraform_version: 1.14.6
+
+      - name: Terraform Init (no backend)
+        working-directory: ./terraform/envs/prod
+        run: terraform init -backend=false
       
       - name: Terraform Format Check
-        working-directory: ./terraform/envs/prod
-        run: terraform fmt -check -recursive ..
+        working-directory: ./terraform
+        run: terraform fmt -check -recursive
 
       - name: Terraform Validate
         working-directory: ./terraform/envs/prod
         run: terraform validate
 
-      - name: TFLint
+      - name: Setup TFLint
         uses: terraform-linters/setup-tflint@v4
 
       - name: Init TFLint
         run: tflint --init
-        
+
       - name: Run TFLint
         working-directory: ./terraform/envs/prod
         run: tflint
