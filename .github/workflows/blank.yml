@@ -1,0 +1,155 @@
+# # This is a basic workflow to help you get started with Actions
+
+# name: CI
+
+# # Controls when the workflow will run
+# on:
+#   # Triggers the workflow on push or pull request events but only for the "main" branch
+#   push:
+#     branches: [ "main" ]
+#   pull_request:
+#     branches: [ "main" ]
+
+#   # Allows you to run this workflow manually from the Actions tab
+#   workflow_dispatch:
+
+# # A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# jobs:
+#   # This workflow contains a single job called "build"
+#   build:
+#     # The type of runner that the job will run on
+#     runs-on: ubuntu-latest
+
+#     # Steps represent a sequence of tasks that will be executed as part of the job
+#     steps:
+#       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+#       - uses: actions/checkout@v4
+
+#       # Runs a single command using the runners shell
+#       - name: Run a one-line script
+#         run: echo Hello, world!
+
+#       # Runs a set of commands using the runners shell
+#       - name: Run a multi-line script
+#         run: |
+#           echo Add other actions to build,
+#           echo test, and deploy your project.
+
+name: Deploy to Proxmox
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'terraform/**'
+      - 'ansible/**'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:  # Ręczne uruchomienie
+
+jobs:
+  validate:
+    name: Validate
+    runs-on: self-hosted
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: latest
+      
+      - name: Terraform Format Check
+        working-directory: ./terraform/envs/prod
+        run: terraform fmt -check -recursive ..
+
+      - name: Terraform Validate
+        working-directory: ./terraform/envs/prod
+        run: terraform validate
+
+      - name: TFLint
+        uses: terraform-linters/setup-tflint@v4
+
+      - name: Init TFLint
+        run: tflint --init
+        
+      - name: Run TFLint
+        working-directory: ./terraform/envs/prod
+        run: tflint
+
+  plan:
+    name: Plan
+    runs-on: self-hosted
+    needs: validate
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+      
+      - name: Terraform Init
+        working-directory: ./terraform/envs/prod
+        env:
+          TF_BACKEND_INIT_CONFIG: "-backend-config=credentials.auto.tfvars"
+        run: terraform init
+      
+      - name: Terraform Plan
+        working-directory: ./terraform/envs/prod
+        run: terraform plan -out=tfplan
+      
+      - name: Upload Plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: tfplan
+          path: ./terraform/envs/prod/tfplan
+
+  deploy:
+    name: Deploy
+    runs-on: self-hosted
+    needs: plan
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+      
+      - name: Download Plan
+        uses: actions/download-artifact@v4
+        with:
+          name: tfplan
+          path: ./terraform/envs/prod
+      
+      - name: Terraform Apply
+        working-directory: ./terraform/envs/prod
+        run: terraform apply -auto-approve tfplan
+
+  configure:
+    name: Configure with Ansible
+    runs-on: self-hosted
+    needs: deploy
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install Ansible & Dependencies
+        run: |
+          pip install ansible pyyaml
+      
+      - name: Generate Inventory
+        run: python3 generate_inventory.py
+      
+      - name: Run Ansible Playbooks
+        working-directory: ./ansible
+        run: |
+          ansible-playbook -i inventory.yml playbooks/deploy.yml -v
+
