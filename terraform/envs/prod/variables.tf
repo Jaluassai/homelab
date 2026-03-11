@@ -1,5 +1,11 @@
-variable "proxmox_api_url" {}
-variable "proxmox_api_token_id" {}
+variable "proxmox_api_url" {
+  type      = string
+  sensitive = true
+}
+variable "proxmox_api_token_id" {
+  type      = string
+  sensitive = true
+}
 
 variable "PROXMOX_VE_USERNAME" {
   sensitive = true
