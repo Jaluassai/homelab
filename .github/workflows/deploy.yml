@@ -97,6 +97,10 @@ jobs:
         with:
           name: tfplan
           path: ./terraform/envs/prod
+
+      - name: Terraform Init
+        working-directory: ./terraform/envs/prod
+        run: terraform init
       
       - name: Terraform Apply
         working-directory: ./terraform/envs/prod
