@@ -53,10 +53,10 @@ jobs:
     needs: validate
     
     steps:
-      - uses: actions/checkout
+      - uses: actions/checkout@v4
       
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform
+        uses: hashicorp/setup-terraform@v3
       
       - name: Terraform Init
         working-directory: ./terraform/envs/prod
@@ -75,13 +75,13 @@ jobs:
         run: terraform plan -out=tfplan
       
       - name: Upload Plan
-        uses: actions/upload-artifact
+        uses: actions/upload-artifact@v4
         with:
           name: tfplan
           path: ./terraform/envs/prod/tfplan
 
       - name: Upload Terraform state
-        uses: actions/upload-artifact
+        uses: actions/upload-artifact@v4
         with:
           name: terraform-state
           path: ./terraform/envs/prod/terraform.tfstate
@@ -93,19 +93,19 @@ jobs:
     if: github.ref == 'refs/heads/main'
     
     steps:
-      - uses: actions/checkout
+      - uses: actions/checkout@v4
       
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform
+        uses: hashicorp/setup-terraform@v3
 
       - name: Download Terraform state
-        uses: actions/download-artifact
+        uses: actions/download-artifact@v4
         with:
           name: terraform-state
           path: ./terraform/envs/prod
       
       - name: Download Plan
-        uses: actions/download-artifact
+        uses: actions/download-artifact@v4
         with:
           name: tfplan
           path: ./terraform/envs/prod
