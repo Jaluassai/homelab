@@ -34,7 +34,7 @@ variable "ipv4_address" {
 }
 
 variable "ipv4_gateway" {
-  type = string
+  type    = string
   default = null
 }
 
