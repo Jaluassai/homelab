@@ -18,10 +18,10 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout
       
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform
         with:
           terraform_version: 1.14.6
 
@@ -38,7 +38,7 @@ jobs:
         run: terraform validate
 
       - name: Setup TFLint
-        uses: terraform-linters/setup-tflint@v4
+        uses: terraform-linters/setup-tflint
 
       - name: Init TFLint
         run: tflint --init
@@ -53,10 +53,10 @@ jobs:
     needs: validate
     
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout
       
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform
       
       - name: Terraform Init
         working-directory: ./terraform/envs/prod
@@ -75,10 +75,16 @@ jobs:
         run: terraform plan -out=tfplan
       
       - name: Upload Plan
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact
         with:
           name: tfplan
           path: ./terraform/envs/prod/tfplan
+
+      - name: Upload Terraform state
+        uses: actions/upload-artifact
+        with:
+          name: terraform-state
+          path: ./terraform/envs/prod/terraform.tfstate
 
   deploy:
     name: Deploy
@@ -87,13 +93,19 @@ jobs:
     if: github.ref == 'refs/heads/main'
     
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout
       
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform
+
+      - name: Download Terraform state
+        uses: actions/download-artifact
+        with:
+          name: terraform-state
+          path: ./terraform/envs/prod
       
       - name: Download Plan
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact
         with:
           name: tfplan
           path: ./terraform/envs/prod
@@ -114,18 +126,6 @@ jobs:
     
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      
-      - name: Install Ansible & Dependencies
-        run: |
-          pip install ansible pyyaml
-      
-      - name: Generate Inventory
-        run: python3 generate_inventory.py
       
       - name: Run Ansible Playbooks
         working-directory: ./ansible
