@@ -66,6 +66,11 @@ jobs:
       
       - name: Terraform Plan
         working-directory: ./terraform/envs/prod
+        env:
+          TF_VAR_PROXMOX_VE_USERNAME: ${{ secrets.PROXMOX_VE_USERNAME }}
+          TF_VAR_PROXMOX_VE_PASSWORD: ${{ secrets.PROXMOX_VE_PASSWORD }}
+          TF_VAR_proxmox_api_token_id: ${{ secrets.proxmox_api_token_id }}
+          TF_VAR_proxmox_api_token_secret: ${{ secrets.proxmox_api_token_secret }}
         run: terraform plan -out=tfplan
       
       - name: Upload Plan
