@@ -80,12 +80,6 @@ jobs:
           name: tfplan
           path: ./terraform/envs/prod/tfplan
 
-      - name: Upload Terraform state
-        uses: actions/upload-artifact@v4
-        with:
-          name: terraform-state
-          path: ./terraform/envs/prod/terraform.tfstate
-
   deploy:
     name: Deploy
     runs-on: self-hosted
@@ -97,12 +91,6 @@ jobs:
       
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
-
-      - name: Download Terraform state
-        uses: actions/download-artifact@v4
-        with:
-          name: terraform-state
-          path: ./terraform/envs/prod
       
       - name: Download Plan
         uses: actions/download-artifact@v4
