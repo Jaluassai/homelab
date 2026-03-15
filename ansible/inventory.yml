@@ -3,7 +3,7 @@ all:
     proxy:
       hosts:
         treafik:
-          ansible_host: 192.168.100.238
+          ansible_host: 192.168.100.199
           ansible_user: root
 
     # dns:
