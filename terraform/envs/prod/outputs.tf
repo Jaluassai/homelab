@@ -41,6 +41,6 @@ output "debug_traefik_ssh_keys_count" {
 }
 
 output "debug_var_ssh_public_keys_count" {
-  value = length(var.ssh_public_keys)
+  value     = length(var.ssh_public_keys)
   sensitive = true
 }
