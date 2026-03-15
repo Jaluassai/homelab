@@ -18,7 +18,10 @@ module "traefik" {
   os_type          = "ubuntu"
 
   password = random_password.ubuntu_container_password.result
-  ssh_keys = concat([tls_private_key.ubuntu_container_key.public_key_openssh], values(var.ssh_public_keys))
+  ssh_keys = concat(
+    [tls_private_key.ubuntu_container_key.public_key_openssh],
+    values(var.ssh_public_keys)
+  )
 
 }
 

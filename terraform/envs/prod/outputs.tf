@@ -31,3 +31,14 @@ output "adguard_container_password" {
   value     = random_password.adguard_container_password.result
   sensitive = true
 }
+
+output "debug_traefik_ssh_keys_count" {
+  value = length(concat(
+    [tls_private_key.ubuntu_container_key.public_key_openssh],
+    values(var.ssh_public_keys)
+  ))
+}
+
+output "debug_var_ssh_public_keys_count" {
+  value = length(var.ssh_public_keys)
+}
