@@ -37,8 +37,10 @@ output "debug_traefik_ssh_keys_count" {
     [tls_private_key.ubuntu_container_key.public_key_openssh],
     values(var.ssh_public_keys)
   ))
+  sensitive = true
 }
 
 output "debug_var_ssh_public_keys_count" {
   value = length(var.ssh_public_keys)
+  sensitive = true
 }
