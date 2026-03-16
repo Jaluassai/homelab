@@ -118,6 +118,12 @@ jobs:
       - name: Create vault password file
         working-directory: ./ansible
         run: echo "${{ secrets.ANSIBLE_VAULT_PASSWORD }}" > vault_pass.txt
+
+      - name: Create terraform credentials
+        run: |
+          cat <<EOF > credentials.auto.tfvars
+          ${{ secrets.SSH_CREDENTIALS }}
+          EOF
       
       - name: Run Ansible Playbooks
         working-directory: ./ansible
