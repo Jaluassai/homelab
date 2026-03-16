@@ -1,19 +1,16 @@
 ---
 - name: Deploy Services to Proxmox Containers
   hosts: all
-  gather_facts: yes
   
   tasks:
     - name: Update package cache
       apt:
         update_cache: yes
         cache_valid_time: 3600
-      when: ansible_os_family == "Debian"
 
     - name: Upgrade all packages
       apt:
         upgrade: dist
-      when: ansible_os_family == "Debian"
 
     - name: Install basic tools
       apt:
@@ -25,11 +22,9 @@
           - htop
           - net-tools
         state: present
-      when: ansible_os_family == "Debian"
 
 - name: Setup Traefik Reverse Proxy
   hosts: traefik
-  gather_facts: yes
   
   roles:
     - install_caddy
