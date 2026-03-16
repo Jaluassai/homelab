@@ -57,6 +57,13 @@ jobs:
       
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
+
+      - name: Create terraform credentials
+        working-directory: ./terraform/envs/prod
+        run: |
+          cat <<EOF > credentials.auto.tfvars
+          ${{ secrets.SSH_CREDENTIALS }}
+          EOF
       
       - name: Terraform Init
         working-directory: ./terraform/envs/prod
@@ -91,6 +98,13 @@ jobs:
       
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
+
+      - name: Create terraform credentials
+        working-directory: ./terraform/envs/prod
+        run: |
+          cat <<EOF > credentials.auto.tfvars
+          ${{ secrets.SSH_CREDENTIALS }}
+          EOF
       
       - name: Download Plan
         uses: actions/download-artifact@v4
@@ -119,12 +133,6 @@ jobs:
         working-directory: ./ansible
         run: echo "${{ secrets.ANSIBLE_VAULT_PASSWORD }}" > vault_pass.txt
 
-      - name: Create terraform credentials
-        run: |
-          cat <<EOF > credentials.auto.tfvars
-          ${{ secrets.SSH_CREDENTIALS }}
-          EOF
-      
       - name: Run Ansible Playbooks
         working-directory: ./ansible
         run: |
