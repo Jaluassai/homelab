@@ -24,7 +24,7 @@
         state: present
 
 - name: Setup Traefik Reverse Proxy
-  hosts: traefik
+  hosts: caddy
   
   roles:
     - install_caddy

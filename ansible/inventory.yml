@@ -2,7 +2,7 @@ all:
   children:
     proxy:
       hosts:
-        treafik:
+        caddy:
           ansible_host: 192.168.100.199
           ansible_user: root
 
