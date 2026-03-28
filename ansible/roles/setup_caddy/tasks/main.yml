@@ -28,6 +28,16 @@
   systemd:
     daemon_reload: yes
 
+- name: Copy Caddyfile from repo to server
+  copy:
+    src: ../../../caddy/Caddyfile
+    dest: /etc/caddy/Caddyfile
+    owner: caddy
+    group: caddy
+    mode: '0644'
+    backup: yes
+  notify: Validate and reload Caddy
+
 - name: Restart Caddy
   service:
     name: caddy
