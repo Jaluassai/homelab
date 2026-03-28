@@ -36,7 +36,6 @@
     group: caddy
     mode: '0644'
     backup: yes
-  notify: Validate and reload Caddy
 
 - name: Restart Caddy
   service:
