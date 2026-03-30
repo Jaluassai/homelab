@@ -54,11 +54,7 @@ module "docker01" {
 
   node_name        = "Hades01"
   vm_id            = 401
-<<<<<<< HEAD
   name             = "docker01"
-=======
-  name         = "docker01"
->>>>>>> 158d78f681d8031c40934c0cc389d553a8390a5b
   cores            = 2
   memory_floating  = 2048
   memory_dedicated = 2048
