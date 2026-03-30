@@ -8,7 +8,7 @@ resource "proxmox_virtual_environment_download_file" "lxc_img" {
 }
 
 resource "proxmox_virtual_environment_download_file" "vm_img" {
-  content_type        = "cloud-init"
+  content_type        = "import"
   datastore_id        = "local"
   node_name           = "Hades01"
   url                 = "https://cloud-images.ubuntu.com/noble/20260216/noble-server-cloudimg-amd64.img"
