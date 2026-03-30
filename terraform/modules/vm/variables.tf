@@ -17,7 +17,7 @@ variable "vm_id" {
 variable "cores" {
   description = "Number of CPU cores assigned to the VM."
   type        = number
-  default = 1
+  default     = 1
 }
 
 variable "sockets" {
@@ -29,7 +29,7 @@ variable "sockets" {
 variable "memory_dedicated" {
   description = "Dedicated memory for the VM in MB."
   type        = number
-    default     = 512
+  default     = 512
 }
 
 variable "memory_floating" {
@@ -56,7 +56,7 @@ variable "ipv4_address" {
 variable "ipv4_gateway" {
   description = "IPv4 gateway address."
   type        = string
-  default = "192.168.100.1"
+  default     = "192.168.100.1"
 }
 
 variable "ssh_keys" {

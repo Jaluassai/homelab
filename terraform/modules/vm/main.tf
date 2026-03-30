@@ -14,14 +14,14 @@ resource "proxmox_virtual_environment_vm" "this" {
   vm_id     = var.vm_id
 
   cpu {
-    cores        = var.cores
-    sockets      = var.sockets
-    type         = "x86-64-v2-AES"  # recommended for modern CPUs
+    cores   = var.cores
+    sockets = var.sockets
+    type    = "x86-64-v2-AES" # recommended for modern CPUs
   }
 
   memory {
     dedicated = var.memory_dedicated
-    floating  = var.memory_floating 
+    floating  = var.memory_floating
     # set equal to dedicated to enable ballooning
   }
 
@@ -33,7 +33,7 @@ resource "proxmox_virtual_environment_vm" "this" {
   stop_on_destroy = true
 
   startup {
-    order      = "3"
+    order = "3"
   }
 
   initialization {
@@ -59,7 +59,7 @@ resource "proxmox_virtual_environment_vm" "this" {
     bridge = var.network_bridge
   }
   #tags        = ["terraform", "ubuntu"]
- disks {
+  disks {
     datastore_id = var.datastore_id
     size         = var.disk_size
     discard      = var.disk_discard
