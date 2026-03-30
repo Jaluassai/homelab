@@ -36,7 +36,7 @@ resource "proxmox_virtual_environment_vm" "this" {
   startup {
     order = "3"
   }
-  
+
   initialization {
 
     ip_config {
