@@ -2,8 +2,8 @@ output "id" {
   value = proxmox_virtual_environment_vm.this.id
 }
 
-output "hostname" {
-  value = var.hostname
+output "name" {
+  value = var.name
 }
 
 output "ip_address" {

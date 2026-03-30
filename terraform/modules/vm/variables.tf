@@ -43,7 +43,7 @@ variable "agent_enabled" {
   default     = false
 }
 
-variable "hostname" {
+variable "name" {
   description = "Hostname of the virtual machine."
   type        = string
 }

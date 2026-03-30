@@ -12,6 +12,7 @@ resource "proxmox_virtual_environment_vm" "this" {
 
   node_name = var.node_name
   vm_id     = var.vm_id
+  name      = var.name
 
   cpu {
     cores   = var.cores
@@ -35,9 +36,8 @@ resource "proxmox_virtual_environment_vm" "this" {
   startup {
     order = "3"
   }
-
+  
   initialization {
-    hostname = var.hostname
 
     ip_config {
       ipv4 {
@@ -59,7 +59,7 @@ resource "proxmox_virtual_environment_vm" "this" {
     bridge = var.network_bridge
   }
   #tags        = ["terraform", "ubuntu"]
-  disks {
+  disk {
     datastore_id = var.datastore_id
     size         = var.disk_size
     discard      = var.disk_discard
