@@ -88,8 +88,8 @@ variable "disk_size" {
 
 variable "disk_discard" {
   description = "Enable discard/TRIM on the VM disk."
-  type        = bool
-  default     = true
+  type        = string
+  default     = "on"
 }
 
 variable "disk_iothread" {
