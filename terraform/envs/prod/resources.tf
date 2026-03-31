@@ -12,9 +12,9 @@ resource "proxmox_virtual_environment_download_file" "vm_img" {
   datastore_id        = "local"
   node_name           = "Hades01"
   url                 = "https://cloud-images.ubuntu.com/noble/20260216/noble-server-cloudimg-amd64.img"
+  file_name           = "noble-server-cloudimg-amd64.qcow2"
   overwrite_unmanaged = true
 }
-
 resource "random_password" "ubuntu_container_password" {
   length           = 16
   override_special = "_%@"
