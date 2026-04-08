@@ -64,6 +64,7 @@ module "docker01" {
   datastore_id     = "local-lvm"
   disk_size        = 16
   disk_discard     = "on"
+  disk_interface   = "virtio"
   cloud_image_id   = proxmox_virtual_environment_download_file.vm_img.id
   password         = random_password.docker01_container_password.result
   ssh_keys         = concat([tls_private_key.docker01_container_key.public_key_openssh], values(var.ssh_public_keys))
