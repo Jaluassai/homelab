@@ -1,38 +1,38 @@
-output "traefik_id" {
-  value = module.traefik.id
+output "caddy_id" {
+  value = module.caddy.id
 }
 
-output "traefik_hostname" {
-  value = module.traefik.hostname
+output "caddy_hostname" {
+  value = module.caddy.hostname
 }
 
-output "traefik_ip" {
-  value = module.traefik.ip_address
+output "caddy_ip" {
+  value = module.caddy.ip_address
 }
 
-output "traefik_container_password" {
+output "caddy_container_password" {
   value     = random_password.ubuntu_container_password.result
   sensitive = true
 }
 
-output "adguard_id" {
-  value = module.adgurd.id
-}
+# output "adguard_id" {
+#   value = module.adgurd.id
+# }
 
-output "adguard_hostname" {
-  value = module.adgurd.hostname
-}
+# output "adguard_hostname" {
+#   value = module.adgurd.hostname
+# }
 
-output "adguard_ip" {
-  value = module.adgurd.ip_address
-}
+# output "adguard_ip" {
+#   value = module.adgurd.ip_address
+# }
 
 output "adguard_container_password" {
   value     = random_password.adguard_container_password.result
   sensitive = true
 }
 
-output "debug_traefik_ssh_keys_count" {
+output "debug_caddy_ssh_keys_count" {
   value = length(concat(
     [tls_private_key.ubuntu_container_key.public_key_openssh],
     values(var.ssh_public_keys)
