@@ -11,7 +11,7 @@ output "caddy_ip" {
 }
 
 output "caddy_container_password" {
-  value     = random_password.ubuntu_container_password.result
+  value     = random_password.caddy_container_password.result
   sensitive = true
 }
 
@@ -34,7 +34,7 @@ output "caddy_container_password" {
 
 output "debug_caddy_ssh_keys_count" {
   value = length(concat(
-    [tls_private_key.ubuntu_container_key.public_key_openssh],
+    [tls_private_key.caddy_container_key.public_key_openssh],
     values(var.ssh_public_keys)
   ))
   sensitive = true
