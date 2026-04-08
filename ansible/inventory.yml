@@ -5,6 +5,9 @@ all:
         caddy:
           ansible_host: 192.168.100.199
           ansible_user: root
+        docker01:
+          ansible_host: 192.168.100.140
+          ansible_user: ubuntu
 
     # dns:
     #   hosts:
