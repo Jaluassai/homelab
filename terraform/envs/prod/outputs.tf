@@ -27,10 +27,10 @@ output "caddy_container_password" {
 #   value = module.adgurd.ip_address
 # }
 
-output "adguard_container_password" {
-  value     = random_password.adguard_container_password.result
-  sensitive = true
-}
+# output "adguard_container_password" {
+#   value     = random_password.adguard_container_password.result
+#   sensitive = true
+# }
 
 output "debug_caddy_ssh_keys_count" {
   value = length(concat(

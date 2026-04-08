@@ -1,9 +1,9 @@
-module "Caddy" {
+module "caddy" {
   source = "../../modules/lxc"
 
   node_name = "Hades01"
   vm_id     = 301
-  hostname  = "caddy"
+  hostname  = "Caddy"
 
   cores  = 1
   memory = 512
@@ -17,9 +17,9 @@ module "Caddy" {
   template_file_id = proxmox_virtual_environment_download_file.lxc_img.id
   os_type          = "ubuntu"
 
-  password = random_password.ubuntu_container_password.result
+  password = random_password.caddy_container_password.result
   ssh_keys = concat(
-    [tls_private_key.ubuntu_container_key.public_key_openssh],
+    [tls_private_key.caddy_container_key.public_key_openssh],
     values(var.ssh_public_keys)
   )
 
@@ -49,7 +49,7 @@ module "Caddy" {
 
 # }
 
-module "Docker01" {
+module "docker01" {
   source = "../../modules/vm"
 
   node_name        = "Hades01"

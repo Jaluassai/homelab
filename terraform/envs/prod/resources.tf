@@ -15,28 +15,28 @@ resource "proxmox_virtual_environment_download_file" "vm_img" {
   file_name           = "noble-server-cloudimg-amd64.qcow2"
   overwrite_unmanaged = true
 }
-resource "random_password" "ubuntu_container_password" {
+resource "random_password" "caddy_container_password" {
   length           = 16
   override_special = "_%@"
   special          = true
 }
 
-resource "tls_private_key" "ubuntu_container_key" {
+resource "tls_private_key" "caddy_container_key" {
   algorithm = "RSA"
   rsa_bits  = 2048
 }
 
 
-resource "random_password" "adguard_container_password" {
-  length           = 16
-  override_special = "_%@"
-  special          = true
-}
+# resource "random_password" "adguard_container_password" {
+#   length           = 16
+#   override_special = "_%@"
+#   special          = true
+# }
 
-resource "tls_private_key" "adguard_container_key" {
-  algorithm = "RSA"
-  rsa_bits  = 2048
-}
+# resource "tls_private_key" "adguard_container_key" {
+#   algorithm = "RSA"
+#   rsa_bits  = 2048
+# }
 
 resource "random_password" "docker01_container_password" {
   length           = 16
