@@ -67,9 +67,6 @@ resource "proxmox_virtual_environment_vm" "this" {
     interface    = var.disk_interface
     import_from  = var.cloud_image_id
 
-    lifecycle {
-      ignore_changes = [import_from]
-    }
   }
 
   operating_system {
@@ -78,6 +75,10 @@ resource "proxmox_virtual_environment_vm" "this" {
 
   tpm_state {
     version = "v2.0"
+  }
+
+  lifecycle {
+    ignore_changes = [import_from]
   }
 
 }
