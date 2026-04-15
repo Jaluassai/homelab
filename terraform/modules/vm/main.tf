@@ -78,7 +78,7 @@ resource "proxmox_virtual_environment_vm" "this" {
   }
 
   lifecycle {
-    ignore_changes = [disk[0].import_from]
+    ignore_changes = [disk]
   }
 
 }
