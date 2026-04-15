@@ -66,6 +66,10 @@ resource "proxmox_virtual_environment_vm" "this" {
     iothread     = var.disk_iothread
     interface    = var.disk_interface
     import_from  = var.cloud_image_id
+
+    lifecycle {
+      ignore_changes = [import_from]
+    }
   }
 
   operating_system {
