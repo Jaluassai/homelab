@@ -5,7 +5,7 @@ module "caddy" {
   vm_id     = 301
   hostname  = "Caddy"
 
-  cores  = 1
+  cores  = 2
   memory = 512
 
   ipv4_address = "192.168.100.199/24"
