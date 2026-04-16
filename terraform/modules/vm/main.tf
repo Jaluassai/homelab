@@ -73,9 +73,9 @@ resource "proxmox_virtual_environment_vm" "this" {
     type = "l26"
   }
 
-  tpm_state {
-    version = "v2.0"
-  }
+  # tpm_state {
+  #   version = "v2.0"
+  # }
 
   lifecycle {
     ignore_changes = [disk]
