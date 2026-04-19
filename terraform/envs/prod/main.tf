@@ -67,4 +67,5 @@ module "docker01" {
   cloud_image_id   = proxmox_virtual_environment_download_file.vm_img.id
   password         = random_password.docker01_container_password.result
   ssh_keys         = sort(concat([tls_private_key.docker01_container_key.public_key_openssh], values(var.ssh_public_keys)))
+  agent_enabled    = true
 }
