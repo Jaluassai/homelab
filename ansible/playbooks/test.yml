@@ -7,10 +7,12 @@
       apt:
         update_cache: yes
         cache_valid_time: 3600
+      become: true
 
     - name: Upgrade all packages
       apt:
         upgrade: dist
+      become: true
 
     - name: Install basic tools
       apt:
@@ -22,6 +24,7 @@
           - htop
           - net-tools
         state: present
+      become: true
 
 - name: Setup Traefik Reverse Proxy
   hosts: caddy
@@ -29,3 +32,10 @@
   roles:
     - install_caddy
     - setup_caddy
+
+- name: Setup Docker and Portainer
+  hosts: docker01
+  roles:
+    - setup_vm_agent
+    # - install_docker
+    # - setup_portainer
