@@ -46,4 +46,8 @@
      update_cache: yes
      lock_timeout: 600
   
-
+- name: Enable docker service
+  service:
+    name: docker
+    enabled: yes
+    state: started
