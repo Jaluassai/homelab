@@ -1,0 +1,49 @@
+---
+- name: Uninstall old versions of Docker
+  ansible.builtin.apt:
+    name:
+      - docker.io
+      - docker-compose
+      - docker-compose-v2
+      - docker-doc
+      - podman-docker
+      - containerd
+      - runc
+    state: absent
+
+- name:  Install dependencies
+  ansible.builtin.apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+      - python3-debian
+    state: present
+    update_cache: yes
+    lock_timeout: 600
+
+- name: Add Docker repository
+  deb822_repository:
+    name: docker
+    url: https://download.docker.com/linux/ubuntu
+    components: stable
+    architecture: amd64
+    signed_by: https://download.docker.com/linux/ubuntu/gpg
+    type: deb
+    state: present
+
+- name: Install Docker packages
+  package:
+     name:
+       - docker-ce
+       - docker-ce-cli
+       - containerd.io
+       - docker-buildx-plugin
+       - docker-compose-plugin
+     state: present
+     update_cache: yes
+     lock_timeout: 600
+  
+
