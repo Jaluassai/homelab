@@ -37,5 +37,5 @@
   hosts: docker01
   roles:
     - setup_vm_agent
-    # - install_docker
+    - install_docker
     # - setup_portainer
