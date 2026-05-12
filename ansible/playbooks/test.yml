@@ -35,6 +35,8 @@
 
 - name: Setup Docker and Portainer
   hosts: docker01
+  become: true
+
   roles:
     - setup_vm_agent
     - install_docker
