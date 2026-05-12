@@ -25,26 +25,30 @@
     lock_timeout: 600
 
 - name: Add Docker repository
-  deb822_repository:
+  ansible.builtin.deb822_repository:
     name: docker
-    url: https://download.docker.com/linux/ubuntu
-    components: stable
-    architecture: amd64
+    uris: https://download.docker.com/linux/ubuntu
+    suites: "{{ ansible_distribution_release }}"
+    components:
+      - stable
+    architectures:
+      - amd64
     signed_by: https://download.docker.com/linux/ubuntu/gpg
-    type: deb
+    types:
+      - deb
     state: present
 
 - name: Install Docker packages
-  package:
-     name:
-       - docker-ce
-       - docker-ce-cli
-       - containerd.io
-       - docker-buildx-plugin
-       - docker-compose-plugin
-     state: present
-     update_cache: yes
-     lock_timeout: 600
+  ansible.builtin.apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present
+    update_cache: yes
+    lock_timeout: 600
   
 - name: Enable docker service
   service:
