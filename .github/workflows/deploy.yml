@@ -135,6 +135,11 @@ jobs:
         working-directory: ./ansible
         run: echo "${{ secrets.ANSIBLE_VAULT_PASSWORD }}" > vault_pass.txt
 
+      - name: Reset SSH known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          rm -f ~/.ssh/known_hosts
+      
       - name: Run Ansible Playbooks
         working-directory: ./ansible
         run: |
