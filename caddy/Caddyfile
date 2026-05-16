@@ -1,15 +1,45 @@
+{
 
-jellyseer.caddy.nullbyte.cloud {
-    reverse_proxy 192.168.100.52:5055
-        
-    header {
-        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    log {
+        output file /var/log/caddy/caddy.log
+        format json
     }
+}
 
+
+(common) {
     tls {
         dns ovh
     }
+
+    encode zstd gzip
+
+    header {
+        # HSTS
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+        # Security headers
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "SAMEORIGIN"
+        Referrer-Policy "strict-origin-when-cross-origin"
+
+        -Server
+    }
+
+    log {
+        output file /var/log/caddy/access.log
+        format json
+    }
 }
+
+
+
+jellyseer.caddy.nullbyte.cloud {
+    import common
+
+    reverse_proxy 192.168.100.52:5055
+}
+
 
 adguard.caddy.nullbyte.cloud {
     reverse_proxy 192.168.100.254:443
@@ -17,9 +47,7 @@ adguard.caddy.nullbyte.cloud {
 
 bazarr.caddy.nullbyte.cloud {
    reverse_proxy 192.168.100.52:6767
-   tls {
-       dns ovh
-   }
+   import common
 }
 
 prowlarr.caddy.nullbyte.cloud {
