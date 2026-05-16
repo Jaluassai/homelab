@@ -12,6 +12,44 @@ adguard.caddy.nullbyte.cloud {
 
 bazarr.caddy.nullbyte.cloud {
    reverse_proxy 192.168.100.52:6767
+   tls {
+       dns ovh
+   }
+}
+
+prowlarr.caddy.nullbyte.cloud {
+    reverse_proxy 192.168.100.40:9696
+    tls {
+        dns ovh
+    }
+}
+
+qbittorrent.caddy.nullbyte.cloud {
+    reverse_proxy 192.168.100.40:8080
+    tls {
+        dns ovh
+    }
+}
+
+radarr.caddy.nullbyte.cloud {
+    reverse_proxy 192.168.100.40:7878
+    tls {
+        dns ovh
+    }
+}
+
+sonarr.caddy.nullbyte.cloud {
+    reverse_proxy 192.168.100.40:8989
+    tls {
+        dns ovh
+    }
+}
+
+flaresolverr.caddy.nullbyte.cloud {
+    reverse_proxy 192.168.100.40:8191
+    tls {
+        dns ovh
+    }
 }
 
 home-assistant.caddy.nullbyte.cloud {
