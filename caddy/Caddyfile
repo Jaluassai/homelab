@@ -1,6 +1,11 @@
 
 jellyseer.caddy.nullbyte.cloud {
     reverse_proxy 192.168.100.52:5055
+        
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    }
+
     tls {
         dns ovh
     }
