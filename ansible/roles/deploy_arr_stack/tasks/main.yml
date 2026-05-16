@@ -1,0 +1,36 @@
+---
+- name: Ensure ARR stack directory exists
+  ansible.builtin.file:
+    path: "{{ arr_stack_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Copy ARR docker-compose file to host
+  ansible.builtin.copy:
+    src: "{{ arr_stack_compose_src }}"
+    dest: "{{ arr_stack_compose_file }}"
+    mode: '0644'
+
+- name: Create ARR stack environment file
+  ansible.builtin.template:
+    src: env.j2
+    dest: "{{ arr_stack_env_dest }}"
+    mode: '0644'
+
+- name: Deploy ARR Docker Compose stack
+  ansible.builtin.command:
+    cmd: docker compose up -d
+    chdir: "{{ arr_stack_path }}"
+  register: arr_compose
+  changed_when: "'No changes' not in arr_compose.stdout"
+  environment:
+    COMPOSE_HTTP_TIMEOUT: '200'
+
+- name: Wait for Prowlarr to become available
+  ansible.builtin.wait_for:
+    host: 127.0.0.1
+    port: "{{ arr_stack_wait_port }}"
+    timeout: 30
+    state: started

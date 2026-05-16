@@ -40,4 +40,5 @@
   roles:
     - setup_vm_agent
     - install_docker
+    - deploy_arr_stack
     # - setup_portainer

@@ -1,0 +1,6 @@
+---
+arr_stack_path: /opt/docker-apps/arr-media-stack
+arr_stack_compose_src: "{{ playbook_dir }}/../apps/arr-media-stack/compose/docker-compose.yml"
+arr_stack_env_dest: "{{ arr_stack_path }}/.env"
+arr_stack_compose_file: "{{ arr_stack_path }}/docker-compose.yml"
+arr_stack_wait_port: 9696
