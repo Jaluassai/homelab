@@ -1,5 +1,4 @@
 {
-
     log {
         output file /var/log/caddy/caddy.log
         format json
@@ -94,6 +93,8 @@ jellyfin.caddy.nullbyte.cloud {
 }
 
 pelican.caddy.nullbyte.cloud {
-    import common
+    tls {
+        dns ovh
+    }
     reverse_proxy 192.168.100.136:80
 }
