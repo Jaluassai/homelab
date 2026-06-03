@@ -27,6 +27,10 @@ jobs:
               apps/adguard-home/config/AdGuardHome.yaml.template \
               > apps/adguard-home/config/AdGuardHome.yaml
 
+      - name: Create vault password file
+        working-directory: ./ansible
+        run: echo "${{ secrets.ANSIBLE_VAULT_PASSWORD }}" > vault_pass.txt
+
       - name: Start AdGuard Home on Docker01
         working-directory: ./ansible
         run: |
