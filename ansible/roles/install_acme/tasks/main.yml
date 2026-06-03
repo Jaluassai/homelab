@@ -95,7 +95,6 @@
 - name: Issue or renew AdGuard certificate with OVH DNS challenge
   ansible.builtin.shell: |
     set -e
-    source /root/.acme.sh/ovh.env
     /root/.acme.sh/acme.sh --home /root/.acme.sh --server letsencrypt --issue --dns dns_ovh -d adguard.caddy.nullbyte.cloud \
       --key-file /etc/ssl/private/adguard.key \
       --fullchain-file /etc/ssl/certs/adguard.crt \
