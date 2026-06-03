@@ -27,6 +27,7 @@ jobs:
               apps/adguard-home/config/AdGuardHome.yaml.template \
               > apps/adguard-home/config/AdGuardHome.yaml
 
-      - name: Start AdGuard Home with Docker Compose
-        working-directory: apps/adguard-home/compose
-        run: docker compose up -d
+      - name: Start AdGuard Home on Docker01
+        working-directory: ./ansible
+        run: |
+          ansible-playbook -i inventory.yml playbooks/adguard.yml -v --vault-password-file vault_pass.txt

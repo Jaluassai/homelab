@@ -1,0 +1,33 @@
+---
+- name: Ensure AdGuard Home directory exists
+  ansible.builtin.file:
+    path: "{{ adguard_home_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Copy AdGuard compose file to docker01
+  ansible.builtin.copy:
+    src: "{{ adguard_home_compose_src }}"
+    dest: "{{ adguard_home_compose_dest }}"
+    mode: '0644'
+
+- name: Copy AdGuard env file to docker01
+  ansible.builtin.copy:
+    src: "{{ adguard_home_env_src }}"
+    dest: "{{ adguard_home_env_dest }}"
+    mode: '0644'
+
+- name: Copy AdGuard config file to docker01
+  ansible.builtin.copy:
+    src: "{{ adguard_home_config_src }}"
+    dest: "{{ adguard_home_config_dest }}"
+    mode: '0644'
+
+- name: Start AdGuard Home with Docker Compose on docker01
+  ansible.builtin.command:
+    cmd: docker compose up -d
+    chdir: "{{ adguard_home_path }}"
+  environment:
+    COMPOSE_HTTP_TIMEOUT: '200'
