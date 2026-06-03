@@ -43,4 +43,8 @@ jobs:
       - name: Start AdGuard Home on Docker01
         working-directory: ./ansible
         run: |
-          ansible-playbook -i inventory.yml playbooks/adguard.yml -v --vault-password-file vault_pass.txt
+          ansible-playbook -i inventory.yml playbooks/adguard.yml -v --vault-password-file vault_pass.txt \
+            -e "ovh_endpoint=${{ secrets.OVH_ENDPOINT }}" \
+            -e "ovh_application_key=${{ secrets.OVH_APPLICATION_KEY }}" \
+            -e "ovh_application_secret=${{ secrets.OVH_APPLICATION_SECRET }}" \
+            -e "ovh_consumer_key=${{ secrets.OVH_CONSUMER_KEY }}"

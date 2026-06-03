@@ -20,9 +20,26 @@
     group: root
     mode: '0700'
 
-- name: Copy OVH env file for acme.sh
+- name: Assert OVH credentials are provided
+  ansible.builtin.assert:
+    that:
+      - ovh_endpoint is defined
+      - ovh_endpoint != ''
+      - ovh_application_key is defined
+      - ovh_application_key != ''
+      - ovh_application_secret is defined
+      - ovh_application_secret != ''
+      - ovh_consumer_key is defined
+      - ovh_consumer_key != ''
+    fail_msg: "OVH credentials are missing. Pass ovh_endpoint, ovh_application_key, ovh_application_secret, ovh_consumer_key as extra vars."
+
+- name: Create OVH env file for acme.sh on docker01
   ansible.builtin.copy:
-    src: "{{ playbook_dir }}/../../ovh.env"
+    content: |
+      OVH_ENDPOINT={{ ovh_endpoint }}
+      OVH_APPLICATION_KEY={{ ovh_application_key }}
+      OVH_APPLICATION_SECRET={{ ovh_application_secret }}
+      OVH_CONSUMER_KEY={{ ovh_consumer_key }}
     dest: /root/.acme.sh/ovh.env
     owner: root
     group: root
@@ -54,6 +71,39 @@
   args:
     creates: /root/.acme.sh/acme.sh
     executable: /bin/bash
+
+- name: Ensure SSL certificate directories exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  loop:
+    - /etc/ssl/certs
+    - /etc/ssl/private
+
+- name: Remove stale cert path when it is a directory
+  ansible.builtin.stat:
+    path: /etc/ssl/certs/adguard.crt
+  register: adguard_crt_stat
+
+- name: Remove stale cert directory created by Docker bind mount
+  ansible.builtin.file:
+    path: /etc/ssl/certs/adguard.crt
+    state: absent
+  when: adguard_crt_stat.stat.exists and adguard_crt_stat.stat.isdir
+
+- name: Remove stale key path when it is a directory
+  ansible.builtin.stat:
+    path: /etc/ssl/private/adguard.key
+  register: adguard_key_stat
+
+- name: Remove stale key directory created by Docker bind mount
+  ansible.builtin.file:
+    path: /etc/ssl/private/adguard.key
+    state: absent
+  when: adguard_key_stat.stat.exists and adguard_key_stat.stat.isdir
 
 - name: Issue or renew AdGuard certificate with OVH DNS challenge
   ansible.builtin.shell: |
