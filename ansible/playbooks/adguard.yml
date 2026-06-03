@@ -5,12 +5,13 @@
 
   vars:
     adguard_home_path: /opt/adguard-home
+    adguard_home_data_path: /docker/appdata/adguardhome
     adguard_home_compose_src: apps/adguard-home/compose/docker-compose.yml
     adguard_home_compose_dest: "{{ adguard_home_path }}/docker-compose.yml"
     adguard_home_env_src: apps/adguard-home/compose/.env
     adguard_home_env_dest: "{{ adguard_home_path }}/.env"
     adguard_home_config_src: apps/adguard-home/config/AdGuardHome.yaml
-    adguard_home_config_dest: "{{ adguard_home_path }}/AdGuardHome.yaml"
+    adguard_home_config_dest: "{{ adguard_home_data_path }}/AdGuardHome.yaml"
 
   roles:
     - deploy_adguard_home

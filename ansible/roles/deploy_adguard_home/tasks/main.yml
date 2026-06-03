@@ -1,7 +1,15 @@
 ---
-- name: Ensure AdGuard Home directory exists
+- name: Ensure AdGuard compose directory exists
   ansible.builtin.file:
     path: "{{ adguard_home_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Ensure AdGuard data directory exists
+  ansible.builtin.file:
+    path: "{{ adguard_home_data_path }}"
     state: directory
     owner: root
     group: root
@@ -19,7 +27,7 @@
     dest: "{{ adguard_home_env_dest }}"
     mode: '0644'
 
-- name: Copy AdGuard config file to docker01
+- name: Copy AdGuard config file to docker01 data directory
   ansible.builtin.copy:
     src: "{{ playbook_dir }}/../../{{ adguard_home_config_src }}"
     dest: "{{ adguard_home_config_dest }}"
