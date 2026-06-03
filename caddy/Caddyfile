@@ -41,7 +41,8 @@ jellyseer.caddy.nullbyte.cloud {
 
 
 adguard.caddy.nullbyte.cloud {
-    reverse_proxy 192.168.100.254:443
+    import common
+    reverse_proxy 192.168.100.40:443
 }
 
 bazarr.caddy.nullbyte.cloud {

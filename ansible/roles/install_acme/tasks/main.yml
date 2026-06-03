@@ -1,0 +1,49 @@
+---
+- name: Install packages required by acme.sh
+  ansible.builtin.apt:
+    name:
+      - curl
+      - socat
+      - openssl
+      - ca-certificates
+    state: present
+    update_cache: yes
+    lock_timeout: 600
+
+- name: Ensure acme.sh home directory exists
+  ansible.builtin.file:
+    path: /root/.acme.sh
+    state: directory
+    owner: root
+    group: root
+    mode: '0700'
+
+- name: Copy OVH env file for acme.sh
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/../../ovh.env"
+    dest: /root/.acme.sh/ovh.env
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Install acme.sh
+  ansible.builtin.command:
+    cmd: curl -s https://get.acme.sh | bash -s -- --install --home /root/.acme.sh
+    creates: /root/.acme.sh/acme.sh
+
+- name: Issue or renew AdGuard certificate with OVH DNS challenge
+  ansible.builtin.shell: |
+    set -e
+    source /root/.acme.sh/ovh.env
+    export OVH_ENDPOINT="$OVH_ENDPOINT"
+    export OVH_APPLICATION_KEY="$OVH_APPLICATION_KEY"
+    export OVH_APPLICATION_SECRET="$OVH_APPLICATION_SECRET"
+    export OVH_CONSUMER_KEY="$OVH_CONSUMER_KEY"
+    /root/.acme.sh/acme.sh --home /root/.acme.sh --issue --dns dns_ovh -d adguard.caddy.nullbyte.cloud \
+      --key-file /etc/ssl/private/adguard.key \
+      --fullchain-file /etc/ssl/certs/adguard.crt \
+      --reloadcmd "docker compose -f /opt/adguard-home/docker-compose.yml restart adguard"
+  args:
+    creates: /etc/ssl/certs/adguard.crt
+  environment:
+    PATH: "/root/.acme.sh:{{ ansible_env.PATH }}"

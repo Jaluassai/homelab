@@ -14,4 +14,5 @@
     adguard_home_config_dest: "{{ adguard_home_data_path }}/AdGuardHome.yaml"
 
   roles:
+    - install_acme
     - deploy_adguard_home
