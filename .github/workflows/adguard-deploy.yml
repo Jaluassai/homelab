@@ -30,10 +30,9 @@ jobs:
       - name: Create OVH credentials file
         run: |
           cat > ovh.env <<'EOF'
-          OVH_ENDPOINT=${{ secrets.OVH_ENDPOINT }}
-          OVH_APPLICATION_KEY=${{ secrets.OVH_APPLICATION_KEY }}
-          OVH_APPLICATION_SECRET=${{ secrets.OVH_APPLICATION_SECRET }}
-          OVH_CONSUMER_KEY=${{ secrets.OVH_CONSUMER_KEY }}
+          OVH_AK==${{ secrets.OVH_APPLICATION_KEY }}
+          OVH_AS=${{ secrets.OVH_APPLICATION_SECRET }}
+          OVH_CK=${{ secrets.OVH_CONSUMER_KEY }}
           EOF
 
       - name: Create vault password file
@@ -44,7 +43,6 @@ jobs:
         working-directory: ./ansible
         run: |
           ansible-playbook -i inventory.yml playbooks/adguard.yml -v --vault-password-file vault_pass.txt \
-            -e "ovh_endpoint=${{ secrets.OVH_ENDPOINT }}" \
-            -e "ovh_application_key=${{ secrets.OVH_APPLICATION_KEY }}" \
-            -e "ovh_application_secret=${{ secrets.OVH_APPLICATION_SECRET }}" \
-            -e "ovh_consumer_key=${{ secrets.OVH_CONSUMER_KEY }}"
+            -e "OVH_AK=${{ secrets.OVH_APPLICATION_KEY }}" \
+            -e "OVH_AS=${{ secrets.OVH_APPLICATION_SECRET }}" \
+            -e "OVH_CK=${{ secrets.OVH_CONSUMER_KEY }}"
