@@ -105,6 +105,7 @@
       --fullchain-file /etc/ssl/certs/adguard.crt \
       --reloadcmd "docker compose -f /opt/adguard-home/docker-compose.yml restart adguard"
   args:
+    executable: /bin/bash
     creates: /etc/ssl/certs/adguard.crt
   environment:
     PATH: "/root/.acme.sh:{{ ansible_env.PATH }}"
