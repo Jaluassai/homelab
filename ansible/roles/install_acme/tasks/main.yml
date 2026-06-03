@@ -28,12 +28,24 @@
     group: root
     mode: '0600'
 
+- name: Check whether acme.sh repo is already present
+  ansible.builtin.stat:
+    path: /root/.acme.sh/.git
+  register: acmesh_git
+
+- name: Remove existing non-git acme.sh directory
+  ansible.builtin.file:
+    path: /root/.acme.sh
+    state: absent
+  when: not acmesh_git.stat.exists
+
 - name: Clone acme.sh repository for installation
   ansible.builtin.git:
     repo: https://github.com/acmesh-official/acme.sh.git
     dest: /root/.acme.sh
     version: master
     force: yes
+    update: yes
 
 - name: Install acme.sh from cloned repo
   ansible.builtin.shell: |
