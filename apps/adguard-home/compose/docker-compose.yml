@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  adguard:
+    container_name: adguardhome
+    image: adguard/adguardhome:latest
+    restart: unless-stopped
+    network_mode: host
+    env_file:
+      - .env
+    volumes:
+      - /docker/appdata/adguardhome:/opt/adguardhome/conf
+      - /etc/localtime:/etc/localtime:ro

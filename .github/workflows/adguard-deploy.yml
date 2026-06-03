@@ -1,0 +1,32 @@
+name: Deploy AdGuard Home
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-adguard:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create local .env from secrets
+        run: |
+          cat > apps/adguard-home/compose/.env <<'EOF'
+          TZ=Europe/Warsaw
+          ADGUARD_PASSWORD=${{ secrets.ADGUARD_PASSWORD }}
+          ADGUARD_ADMIN_USER=${{ secrets.ADGUARD_ADMIN_USER }}
+          EOF
+
+      - name: Render AdGuard Home config from template
+        run: |
+          sed -e "s|\${ADGUARD_PASSWORD}|${{ secrets.ADGUARD_PASSWORD }}|g" \
+              -e "s|\${ADGUARD_ADMIN_USER}|${{ secrets.ADGUARD_ADMIN_USER }}|g" \
+              apps/adguard-home/config/AdGuardHome.yaml.template \
+              > apps/adguard-home/config/AdGuardHome.yaml
+
+      - name: Start AdGuard Home with Docker Compose
+        working-directory: apps/adguard-home/compose
+        run: docker compose up -d
