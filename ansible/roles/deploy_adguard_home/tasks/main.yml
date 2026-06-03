@@ -9,19 +9,19 @@
 
 - name: Copy AdGuard compose file to docker01
   ansible.builtin.copy:
-    src: "{{ adguard_home_compose_src }}"
+    src: "{{ playbook_dir }}/../../{{ adguard_home_compose_src }}"
     dest: "{{ adguard_home_compose_dest }}"
     mode: '0644'
 
 - name: Copy AdGuard env file to docker01
   ansible.builtin.copy:
-    src: "{{ adguard_home_env_src }}"
+    src: "{{ playbook_dir }}/../../{{ adguard_home_env_src }}"
     dest: "{{ adguard_home_env_dest }}"
     mode: '0644'
 
 - name: Copy AdGuard config file to docker01
   ansible.builtin.copy:
-    src: "{{ adguard_home_config_src }}"
+    src: "{{ playbook_dir }}/../../{{ adguard_home_config_src }}"
     dest: "{{ adguard_home_config_dest }}"
     mode: '0644'
 
