@@ -3,6 +3,8 @@
   ansible.builtin.apt:
     name:
       - curl
+      - wget
+      - git
       - socat
       - openssl
       - ca-certificates
@@ -26,10 +28,20 @@
     group: root
     mode: '0600'
 
-- name: Install acme.sh
-  ansible.builtin.command:
-    cmd: curl -s https://get.acme.sh | bash -s -- --install --home /root/.acme.sh
+- name: Clone acme.sh repository for installation
+  ansible.builtin.git:
+    repo: https://github.com/acmesh-official/acme.sh.git
+    dest: /root/.acme.sh
+    version: master
+    force: yes
+
+- name: Install acme.sh from cloned repo
+  ansible.builtin.shell: |
+    cd /root/.acme.sh
+    ./acme.sh --install --home /root/.acme.sh
+  args:
     creates: /root/.acme.sh/acme.sh
+    executable: /bin/bash
 
 - name: Issue or renew AdGuard certificate with OVH DNS challenge
   ansible.builtin.shell: |
