@@ -20,7 +20,7 @@
 
 - name: Copy OVH env file for acme.sh
   ansible.builtin.copy:
-    src: "{{ playbook_dir }}/../../ovh.env"
+    src: "{{ playbook_dir }}/../../../ovh.env"
     dest: /root/.acme.sh/ovh.env
     owner: root
     group: root

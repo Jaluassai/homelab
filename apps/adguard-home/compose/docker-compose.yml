@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   adguard:
     container_name: adguardhome
@@ -10,3 +9,5 @@ services:
     volumes:
       - /docker/appdata/adguardhome:/opt/adguardhome/conf
       - /etc/localtime:/etc/localtime:ro
+      - /etc/ssl/certs/adguard.crt:/etc/ssl/certs/adguard.crt:ro
+      - /etc/ssl/private/adguard.key:/etc/ssl/private/adguard.key:ro
