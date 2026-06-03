@@ -20,26 +20,13 @@
     group: root
     mode: '0700'
 
-- name: Assert OVH credentials are provided
-  ansible.builtin.assert:
-    that:
-      - ovh_endpoint is defined
-      - ovh_endpoint != ''
-      - ovh_application_key is defined
-      - ovh_application_key != ''
-      - ovh_application_secret is defined
-      - ovh_application_secret != ''
-      - ovh_consumer_key is defined
-      - ovh_consumer_key != ''
-    fail_msg: "OVH credentials are missing. Pass ovh_endpoint, ovh_application_key, ovh_application_secret, ovh_consumer_key as extra vars."
-
 - name: Create OVH env file for acme.sh on docker01
   ansible.builtin.copy:
     content: |
-      OVH_ENDPOINT={{ ovh_endpoint }}
-      OVH_APPLICATION_KEY={{ ovh_application_key }}
-      OVH_APPLICATION_SECRET={{ ovh_application_secret }}
-      OVH_CONSUMER_KEY={{ ovh_consumer_key }}
+      OVH_ENDPOINT={{ OVH_ENDPOINT | default(ovh_endpoint, true) }}
+      OVH_APPLICATION_KEY={{ OVH_APPLICATION_KEY | default(ovh_application_key, true) }}
+      OVH_APPLICATION_SECRET={{ OVH_APPLICATION_SECRET | default(ovh_application_secret, true) }}
+      OVH_CONSUMER_KEY={{ OVH_CONSUMER_KEY | default(ovh_consumer_key, true) }}
     dest: /root/.acme.sh/ovh.env
     owner: root
     group: root
