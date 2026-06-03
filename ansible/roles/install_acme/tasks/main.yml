@@ -95,6 +95,10 @@
 - name: Issue or renew AdGuard certificate with OVH DNS challenge
   ansible.builtin.shell: |
     set -e
+    export OVH_ENDPOINT={{ OVH_ENDPOINT | default(ovh_endpoint, true) | quote }}
+    export OVH_APPLICATION_KEY={{ OVH_APPLICATION_KEY | default(ovh_application_key, true) | quote }}
+    export OVH_APPLICATION_SECRET={{ OVH_APPLICATION_SECRET | default(ovh_application_secret, true) | quote }}
+    export OVH_CONSUMER_KEY={{ OVH_CONSUMER_KEY | default(ovh_consumer_key, true) | quote }}
     /root/.acme.sh/acme.sh --home /root/.acme.sh --server letsencrypt --issue --dns dns_ovh -d adguard.caddy.nullbyte.cloud \
       --key-file /etc/ssl/private/adguard.key \
       --fullchain-file /etc/ssl/certs/adguard.crt \
@@ -104,7 +108,3 @@
     creates: /etc/ssl/certs/adguard.crt
   environment:
     PATH: "/root/.acme.sh:{{ ansible_env.PATH }}"
-    OVH_ENDPOINT: "{{ OVH_ENDPOINT | default(ovh_endpoint, true) }}"
-    OVH_APPLICATION_KEY: "{{ OVH_APPLICATION_KEY | default(ovh_application_key, true) }}"
-    OVH_APPLICATION_SECRET: "{{ OVH_APPLICATION_SECRET | default(ovh_application_secret, true) }}"
-    OVH_CONSUMER_KEY: "{{ OVH_CONSUMER_KEY | default(ovh_consumer_key, true) }}"
