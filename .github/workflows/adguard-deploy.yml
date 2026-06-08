@@ -30,7 +30,7 @@ jobs:
       - name: Create OVH credentials file
         run: |
           cat > ovh.env <<'EOF'
-          OVH_AK==${{ secrets.OVH_APPLICATION_KEY }}
+          OVH_AK=${{ secrets.OVH_APPLICATION_KEY }}
           OVH_AS=${{ secrets.OVH_APPLICATION_SECRET }}
           OVH_CK=${{ secrets.OVH_CONSUMER_KEY }}
           EOF
