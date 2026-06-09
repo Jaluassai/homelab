@@ -4,7 +4,7 @@
   become: true
 
   vars:
-    adguard_home_path: /opt/adguard-home
+    adguard_home_path: /opt/docker-apps/adguardhome
     adguard_home_data_path: /docker/appdata/adguardhome
     adguard_home_compose_src: apps/adguard-home/compose/docker-compose.yml
     adguard_home_compose_dest: "{{ adguard_home_path }}/docker-compose.yml"
