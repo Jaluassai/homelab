@@ -44,7 +44,12 @@ adguard.caddy.nullbyte.cloud {
     tls {
         dns ovh
     }
-    reverse_proxy https://192.168.100.40:443
+
+    reverse_proxy https://192.168.100.40:443 {
+        transport http {
+            tls_server_name adguard.caddy.nullbyte.cloud
+        }
+    }
 }
 
 bazarr.caddy.nullbyte.cloud {
