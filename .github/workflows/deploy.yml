@@ -6,7 +6,6 @@ on:
       - main
     paths:
       - 'terraform/**'
-      - 'ansible/**'
       - '.github/workflows/deploy.yml'
   workflow_dispatch:
 
@@ -16,9 +15,9 @@ jobs:
   validate:
     name: Validate
     runs-on: self-hosted
-
+# TODO: Run workflows on a self-hosted runner using Docker images instead of installing tools directly on the runner
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -55,7 +54,7 @@ jobs:
     needs: validate
     
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -96,7 +95,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -129,7 +128,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Create vault password file
         working-directory: ./ansible
