@@ -41,7 +41,9 @@ jellyseer.caddy.nullbyte.cloud {
 
 
 adguard.caddy.nullbyte.cloud {
-    import common
+    tls {
+        dns ovh
+    }
     reverse_proxy 192.168.100.40:443
 }
 
