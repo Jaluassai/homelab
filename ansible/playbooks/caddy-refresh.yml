@@ -1,0 +1,13 @@
+---
+- name: Refresh Caddy configuration and restart Caddy
+  hosts: caddy
+  become: true
+
+  vars:
+    OVH_ENDPOINT: "{{ OVH_ENDPOINT | default('ovh-eu') }}"
+    OVH_APPLICATION_KEY: "{{ OVH_APPLICATION_KEY }}"
+    OVH_APPLICATION_SECRET: "{{ OVH_APPLICATION_SECRET }}"
+    OVH_CONSUMER_KEY: "{{ OVH_CONSUMER_KEY }}"
+
+  roles:
+    - setup_caddy

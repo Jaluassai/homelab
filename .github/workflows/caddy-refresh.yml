@@ -1,0 +1,24 @@
+name: Refresh Caddy
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'caddy/**'
+      - 'ansible/roles/setup_caddy/**'
+      - '.github/workflows/caddy-refresh.yml'
+
+jobs:
+  refresh-caddy:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Refresh Caddy configuration and restart service
+        working-directory: ./ansible
+        run: |
+
+          ansible-playbook -i inventory.yml playbooks/caddy-refresh.yml -v --vault-password-file vault_pass.txt
