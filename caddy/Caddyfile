@@ -41,9 +41,7 @@ jellyseer.caddy.nullbyte.cloud {
 
 
 adguard.caddy.nullbyte.cloud {
-    tls {
-        dns ovh
-    }
+    import common
 
     reverse_proxy https://192.168.100.40:443 {
         transport http {
@@ -97,6 +95,8 @@ home-assistant.caddy.nullbyte.cloud {
 }
 
 jellyfin.caddy.nullbyte.cloud {
+    import common
+    
     reverse_proxy 192.168.100.52:8096
 }
 
