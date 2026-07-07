@@ -2,7 +2,7 @@
   find:
     paths: /opt/docker-apps
     patterns: docker-compose.yml
-    recursive: yes
+    recurse: yes
   register: compose_files
 
 # - name: Pull latest Docker images
@@ -16,5 +16,5 @@
     pull: always
     recreate: auto
   loop: "{{ compose_files.files }}"
-  when: compose_files.matched > 0  
+  when: compose_files.matched > 0
     
