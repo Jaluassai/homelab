@@ -14,7 +14,7 @@
   community.docker.docker_compose:
     project_src: "{{ item.path | dirname }}"
     pull: true
-    recreate: auto
+    recreate: smart
   loop: "{{ compose_files.files }}"
   when: compose_files.matched > 0
     
