@@ -16,4 +16,4 @@ jobs:
 
       - name: Refresh Docker Compose stack on docker01
         working-directory: ./ansible
-        run: ansible-playbook -i inventory.yml playbooks/docker-refresh.yml
+        run: ansible-playbook -i inventory.yml playbooks/docker-refresh.yml -v --vault-password-file vault_pass.txt
