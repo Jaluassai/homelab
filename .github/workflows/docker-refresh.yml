@@ -1,0 +1,19 @@
+name: Refresh Docker Compose Stack
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'ansible/playbooks/docker-refresh.yml'
+      - 'apps/**'
+jobs:
+  refresh-docker-compose:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Refresh Docker Compose stack on docker01
+        working-directory: ./ansible
+        run: ansible-playbook -i inventory.yml playbooks/docker-refresh.yml

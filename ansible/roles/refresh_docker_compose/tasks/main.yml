@@ -1,0 +1,20 @@
+- name: Find Docker Compose files
+  find:
+    paths: /opt/docker-apps
+    patterns: docker-compose.yml
+    recursive: yes
+  register: compose_files
+
+# - name: Pull latest Docker images
+#   shell: docker-compose -f {{ item.path }} pull
+#   loop: "{{ compose_files.files }}"
+#   when: compose_files.matched > 0
+
+- name: Pull docker images
+  community.docker.docker_compose:
+    project_src: "{{ item.path | dirname }}"
+    pull: always
+    recreate: auto
+  loop: "{{ compose_files.files }}"
+  when: compose_files.matched > 0  
+    

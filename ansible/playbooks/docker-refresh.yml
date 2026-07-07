@@ -1,0 +1,7 @@
+---
+- name: Refresh ARR Docker Compose stack on docker01
+  hosts: docker01
+  become: true
+
+  roles:
+    - deploy_arr_stack
