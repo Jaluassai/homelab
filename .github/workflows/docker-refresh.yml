@@ -7,13 +7,14 @@ on:
     paths:
       - 'ansible/playbooks/docker-refresh.yml'
       - 'apps/**'
+  workflow_dispatch:
 jobs:
   refresh-docker-compose:
     runs-on: self-hosted
 
     steps:
       - uses: actions/checkout@v6
-      
+
       - name: Create vault password file
         working-directory: ./ansible
         run: echo "${{ secrets.ANSIBLE_VAULT_PASSWORD }}" > vault_pass.txt
