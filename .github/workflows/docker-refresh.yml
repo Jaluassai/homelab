@@ -13,6 +13,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v6
+      
+      - name: Create vault password file
+        working-directory: ./ansible
+        run: echo "${{ secrets.ANSIBLE_VAULT_PASSWORD }}" > vault_pass.txt
 
       - name: Refresh Docker Compose stack on docker01
         working-directory: ./ansible
