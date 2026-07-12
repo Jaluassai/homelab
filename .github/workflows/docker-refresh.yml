@@ -22,6 +22,7 @@ jobs:
       - name: Setup Python virtual environment
         working-directory: ./ansible
         run: |
+          sudo apt-get install -y python3-venv
           python3 -m venv .venv
           . .venv/bin/activate
           python -m pip install --upgrade pip
