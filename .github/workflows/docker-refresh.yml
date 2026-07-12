@@ -35,3 +35,5 @@ jobs:
           . .venv/bin/activate
           ansible-playbook -i inventory.yml playbooks/docker-refresh.yml -v --vault-password-file vault_pass.txt
         shell: bash
+
+        ##TO DO: Add a step to sync app folder with docker01 before running the playbook
