@@ -13,7 +13,7 @@
 - name: Pull docker images
   community.docker.docker_compose_v2:
     project_src: "{{ item.path | dirname }}"
-    pull: true
+    pull: always
     recreate: smart
   loop: "{{ compose_files.files }}"
   when: compose_files.matched > 0
