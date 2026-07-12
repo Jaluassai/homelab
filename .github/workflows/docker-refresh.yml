@@ -19,9 +19,18 @@ jobs:
         working-directory: ./ansible
         run: echo "${{ secrets.ANSIBLE_VAULT_PASSWORD }}" > vault_pass.txt
 
-      - name: Install Python Docker library
-        run: pip install docker
+      - name: Setup Python virtual environment
+        working-directory: ./ansible
+        run: |
+          python3 -m venv .venv
+          . .venv/bin/activate
+          python -m pip install --upgrade pip
+          pip install ansible-core docker
+        shell: bash
 
       - name: Refresh Docker Compose stack on docker01
         working-directory: ./ansible
-        run: ansible-playbook -i inventory.yml playbooks/docker-refresh.yml -v --vault-password-file vault_pass.txt
+        run: |
+          . .venv/bin/activate
+          ansible-playbook -i inventory.yml playbooks/docker-refresh.yml -v --vault-password-file vault_pass.txt
+        shell: bash
