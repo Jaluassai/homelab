@@ -26,6 +26,7 @@ jobs:
           . .venv/bin/activate
           python -m pip install --upgrade pip
           pip install ansible-core docker
+          ansible-galaxy collection install community.docker
         shell: bash
 
       - name: Refresh Docker Compose stack on docker01
