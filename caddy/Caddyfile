@@ -106,3 +106,8 @@ pelican.caddy.nullbyte.cloud {
     }
     reverse_proxy 192.168.100.136:80
 }
+
+openomsi.caddy.nullbyte.cloud {
+    import common
+    reverse_proxy 192.168.100.179:27025
+}
