@@ -62,7 +62,7 @@ module "docker01" {
   ipv4_address     = "192.168.100.40/24"
   ipv4_gateway     = "192.168.100.1"
   datastore_id     = "local-lvm"
-  disk_size        = 31
+  disk_size        = 32
   disk_discard     = "on"
   cloud_image_id   = proxmox_virtual_environment_download_file.vm_img.id
   password         = random_password.docker01_container_password.result
