@@ -48,3 +48,9 @@ resource "tls_private_key" "docker01_container_key" {
   algorithm = "RSA"
   rsa_bits  = 2048
 }
+
+resource "random_password" "app01_vm_password" {
+  length           = 16
+  override_special = "_%@"
+  special          = true
+}

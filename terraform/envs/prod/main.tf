@@ -69,3 +69,24 @@ module "docker01" {
   ssh_keys         = sort(concat([tls_private_key.docker01_container_key.public_key_openssh], values(var.ssh_public_keys)))
   agent_enabled    = true
 }
+
+module "PelicanNode02" {
+  source = "../../modules/vm"
+
+  node_name        = "Hades01"
+  vm_id            = 109
+  name             = "PelicanNode02"
+  cores            = 2
+  memory_floating  = 2048
+  memory_dedicated = 2048
+  network_bridge   = "vmbr0"
+  ipv4_address     = "192.168.100.179/24"
+  ipv4_gateway     = "192.168.100.1"
+  datastore_id     = "local-lvm"
+  disk_size        = 80
+  disk_discard     = "on"
+  cloud_image_id   = proxmox_virtual_environment_download_file.vm_img.id
+  password         = random_password.pelicannode02_container_password.result
+  ssh_keys         = sort(concat([tls_private_key.pelicannode02_container_key.public_key_openssh], values(var.ssh_public_keys)))
+  agent_enabled    = true
+}
